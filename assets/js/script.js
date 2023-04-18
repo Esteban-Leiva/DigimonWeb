@@ -1,5 +1,5 @@
 var id = 1
-let todoDigimon = {}
+
 var contenido = document.getElementById("contenido")
 contenido.innerHTML = ""
 
@@ -23,5 +23,3 @@ fetch('https://digimon-api.vercel.app/api/digimon')
     }
     
 })
-
-console.log(todoDigimon)
