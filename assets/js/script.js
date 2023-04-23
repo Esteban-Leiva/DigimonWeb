@@ -1,4 +1,4 @@
-var id = 1 //variable que enumera los pokemones mostrados en pantalla
+var id = 1 //variable que enumera los digimons mostrados en pantalla
 var contenido = document.getElementById("contenido") 
 
 //se agrega funcionalidad de buscar con tecla "Enter" al buscador
@@ -25,11 +25,11 @@ fetch('https://digimon-api.vercel.app/api/digimon')
             var imagen = digimon.img
             var nivel =  digimon.level
             contenido.innerHTML += `
-            <tr>
-                <th scope="row">${id}</th>
-                <td>${nombre}</td>
-                <td>${nivel}</td>
-                <td><img src="${imagen}" width="100px"></td>
+            <tr id="${nombre}">
+                <th scope="row" onClick="popup('${nombre}')">${id}</th>
+                <td onClick="popup('${nombre}')">${nombre}</td>
+                <td onClick="popup('${nombre}')">${nivel}</td>
+                <td onClick="popup('${nombre}')"><img src="${imagen}" width="100px"></td>
             </tr>
             `
             id++
@@ -48,11 +48,11 @@ function filtrar(nivel){
                 var imagen = digimon.img
                 var nivel =  digimon.level
                 contenido.innerHTML += `
-                <tr>
-                    <th scope="row">${id}</th>
-                    <td>${nombre}</td>
-                    <td>${nivel}</td>
-                    <td><img src="${imagen}" width="100px"></td>
+                <tr id="${nombre}">
+                    <th scope="row" onClick="popup('${nombre}')">${id}</th>
+                    <td onClick="popup('${nombre}')">${nombre}</td>
+                    <td onClick="popup('${nombre}')">${nivel}</td>
+                    <td onClick="popup('${nombre}')"><img src="${imagen}" width="100px"></td>
                 </tr>
                 `
                 id++
@@ -66,7 +66,6 @@ function buscar(){
     .then(response => response.json())
     .then(digimons => {
         var texto = document.getElementById("buscar").value.toUpperCase()
-        console.log(texto)
         contenido.innerHTML = ""
         id=1
         for (digimon of digimons) {
@@ -75,15 +74,40 @@ function buscar(){
                 var imagen = digimon.img
                 var nivel =  digimon.level
                 contenido.innerHTML += `
-                <tr>
-                    <th scope="row">${id}</th>
-                    <td>${nombre}</td>
-                    <td>${nivel}</td>
-                    <td><img src="${imagen}" width="100px"></td>
+                <tr id="${nombre}">
+                    <th scope="row" onClick="popup('${nombre}')">${id}</th>
+                    <td onClick="popup('${nombre}')">${nombre}</td>
+                    <td onClick="popup('${nombre}')">${nivel}</td>
+                    <td onClick="popup('${nombre}')"><img src="${imagen}" width="100px"></td>
                 </tr>
                 `
                 id++
             }
         }
     })
+}
+
+function popup(nombre){
+    
+    var padre = document.getElementById(nombre)
+    var tarjeta = document.createElement("tr")
+    var imagen = padre.getElementsByTagName("img")[0].currentSrc
+    var nivel = padre.getElementsByTagName("td")[1].innerText
+
+
+    tarjeta.innerHTML = `
+        <tr>
+            <td></td>
+            <td colspan="4" class="card" >
+                <img src="${imagen}" alt="${nombre}" style="width:100%">
+                <h1>${nombre}</h1>
+                <p class="title">${nivel}</p>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    `
+
+    padre.innerHTML = tarjeta.innerHTML
+    
 }
